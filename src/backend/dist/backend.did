@@ -1,0 +1,307 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type YieldEstimation = 
+ record {
+   areaHectares: float64;
+   cropType: text;
+   estimatedYieldKg: float64;
+   healthStatus: text;
+   notes: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = 
+ record {
+   createdAt: Timestamp;
+   name: text;
+   regionAlerts: vec record {
+                       text;
+                       bool;
+                     };
+   userId: UserId;
+ };
+type UserId = principal;
+type TreatmentReminder = 
+ record {
+   completed: bool;
+   createdAt: Timestamp;
+   diseaseName: text;
+   id: text;
+   note: text;
+   predictionId: text;
+   reminderDate: Timestamp;
+   userId: UserId;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type SuccessStory = 
+ record {
+   afterDescription: text;
+   authorName: text;
+   beforeDescription: text;
+   createdAt: Timestamp;
+   cropType: text;
+   diseaseName: text;
+   id: text;
+   likesCount: nat;
+   photoUrl: opt text;
+   treatmentUsed: text;
+   userId: UserId;
+ };
+type SeverityLevel = 
+ variant {
+   mild;
+   moderate;
+   severe;
+ };
+type PredictionRecord = 
+ record {
+   confidenceScore: float64;
+   diseaseName: text;
+   id: nat;
+   imageBlob: ExternalBlob;
+   severityLevel: SeverityLevel;
+   timestamp: Timestamp;
+   userId: UserId;
+ };
+type PredictionInput = 
+ record {
+   imageBlob: ExternalBlob;
+   plantType: text;
+ };
+type ForumReply = 
+ record {
+   authorName: text;
+   body: text;
+   createdAt: Timestamp;
+   id: text;
+   likesCount: nat;
+   postId: text;
+   userId: UserId;
+ };
+type ForumPost = 
+ record {
+   authorName: text;
+   body: text;
+   createdAt: Timestamp;
+   cropType: text;
+   id: text;
+   likesCount: nat;
+   tags: vec text;
+   title: text;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type ForumLeaderboardEntry = 
+ record {
+   displayName: text;
+   postCount: nat;
+   score: nat;
+   totalLikes: nat;
+   userId: UserId;
+ };
+type FertilizerGuide = 
+ record {
+   applicationTiming: text;
+   cropType: text;
+   growthStage: text;
+   notes: text;
+   npkRatio: text;
+   organicOptions: vec text;
+   soilPhRange: text;
+ };
+type ExternalBlob = blob;
+type ExpertContact = 
+ record {
+   available: bool;
+   district: text;
+   email: text;
+   id: text;
+   name: text;
+   phone: text;
+   region: text;
+   specialization: text;
+ };
+type DiseaseSeverityEntry = 
+ record {
+   count: nat;
+   diseaseName: text;
+ };
+type DiseaseRecord = 
+ record {
+   cause: text;
+   id: nat;
+   medicationNames: vec text;
+   name: text;
+   plantType: text;
+   preventionSteps: vec text;
+   severityLevel: SeverityLevel;
+   treatmentSteps: vec text;
+ };
+type CropCalendarEntry = 
+ record {
+   cropType: text;
+   growthDuration: nat;
+   harvestMonths: vec nat;
+   notes: text;
+   region: text;
+   sowingMonths: vec nat;
+ };
+type ChatRole = 
+ variant {
+   assistant;
+   user;
+ };
+type ChatMessage = 
+ record {
+   id: nat;
+   message: text;
+   role: ChatRole;
+   timestamp: Timestamp;
+   userId: UserId;
+ };
+type AppointmentStatus = 
+ variant {
+   cancelled;
+   confirmed;
+   pending;
+ };
+type AppointmentInput = 
+ record {
+   diseaseName: text;
+   location: text;
+   name: text;
+   phone: text;
+   preferredDatetime: text;
+   severity: SeverityLevel;
+ };
+type Appointment = 
+ record {
+   createdAt: Timestamp;
+   diseaseName: text;
+   id: nat;
+   location: text;
+   name: text;
+   phone: text;
+   preferredDatetime: text;
+   severity: SeverityLevel;
+   status: AppointmentStatus;
+   userId: UserId;
+ };
+type AppNotification = 
+ record {
+   isRead: bool;
+   message: text;
+   notifId: text;
+   notifType: text;
+   timestamp: Timestamp;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addExpertContact: (name: text, region: text, district: text, phone: 
+   text, email: text, specialization: text, available: bool) ->
+   (ExpertContact);
+  addReminder: (predictionId: text, diseaseName: text, reminderDate:
+   Timestamp, note: text) -> (TreatmentReminder);
+  admin_setHuggingFaceKey: (key: text) -> ();
+  admin_setOpenAiKey: (key: text) -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  bookAppointment: (input: AppointmentInput) -> (Appointment);
+  clearChatHistory: () -> ();
+  completeReminder: (reminderId: text) -> (bool);
+  createForumPost: (authorName: text, title: text, body: text, cropType:
+   text, tags: vec text) -> (ForumPost);
+  createSuccessStory: (authorName: text, cropType: text, diseaseName: 
+   text, beforeDescription: text, afterDescription: text, treatmentUsed:
+   text, photoUrl: opt text) -> (SuccessStory);
+  estimateYield: (cropType: text, areaHectares: float64, healthStatus:
+   text) -> (YieldEstimation) query;
+  getAppointments: () -> (vec Appointment) query;
+  getCallerAlertSettings: () -> (vec record {
+                                       text;
+                                       bool;
+                                     }) query;
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getChatHistory: () -> (vec ChatMessage) query;
+  getCropCalendar: (cropType: text) -> (opt CropCalendarEntry) query;
+  getDiseaseRecord: (name: text) -> (opt DiseaseRecord) query;
+  getDiseaseSeverityMap: () -> (vec DiseaseSeverityEntry) query;
+  getExpertContacts: (region: text) -> (vec ExpertContact) query;
+  getFertilizerGuide: (cropType: text, growthStage: text) ->
+   (opt FertilizerGuide) query;
+  getForumLeaderboard: () -> (vec ForumLeaderboardEntry) query;
+  getForumPost: (postId: text) -> (opt ForumPost) query;
+  getForumPosts: (offset: nat, limit: nat) -> (vec ForumPost) query;
+  getNotifications: () -> (vec AppNotification) query;
+  getPredictionHistory: () -> (vec PredictionRecord) query;
+  getReminders: () -> (vec TreatmentReminder) query;
+  getReplies: (postId: text) -> (vec ForumReply) query;
+  getSuccessStories: () -> (vec SuccessStory) query;
+  getUserProfile: (user: principal) -> (opt UserProfile) query;
+  isCallerAdmin: () -> (bool) query;
+  likePost: (postId: text) -> (bool);
+  likeSuccessStory: (storyId: text) -> (bool);
+  listDiseaseRecords: () -> (vec DiseaseRecord) query;
+  markNotificationRead: (notifId: text) -> ();
+  predictDiseaseFromImage: (imageBase64: text, plantType: text, imageBlob:
+   ExternalBlob) -> (PredictionRecord);
+  replyToPost: (postId: text, authorName: text, body: text) -> (ForumReply);
+  saveCallerAlertSettings: (alerts: vec record {
+                                          text;
+                                          bool;
+                                        }) -> ();
+  saveCallerUserProfile: (name: text) -> ();
+  saveChatMessage: (message: text, role: ChatRole) -> (ChatMessage);
+  savePrediction: (input: PredictionInput, diseaseName: text,
+   confidenceScore: float64, severityLevel: SeverityLevel) ->
+   (PredictionRecord);
+  sendChatMessage: (userMessage: text) -> (text);
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateAppointmentStatus: (id: nat, status: AppointmentStatus) -> (bool);
+}

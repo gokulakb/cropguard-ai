@@ -1,0 +1,34 @@
+{
+  "overview": "CropGuard AI is a comprehensive crop disease detection and farm management platform for farmers. It combines AI-powered disease identification from photos, a community forum, seasonal guidance, and expert resources to help farmers protect their crops and maximize yields.",
+  "features": [
+    "AI disease detection from photos and live camera",
+    "Crop health history with timeline tracking",
+    "Disease severity map showing regional disease patterns",
+    "Treatment reminders and follow-up scheduling",
+    "Offline scan mode for rural areas",
+    "Seasonal crop calendar with planting schedules",
+    "Fertilizer and soil health guide by crop type",
+    "Market price tracker with live links",
+    "Yield estimator by crop area and health",
+    "WhatsApp scan result sharing",
+    "Photo tips guide for better detection accuracy",
+    "Expert contact directory by region",
+    "Farmer community forum Q&A board",
+    "Success stories feed with before/after recovery posts",
+    "AI chatbot with built-in agricultural knowledge",
+    "Emergency appointment booking for agricultural officers",
+    "Multilingual support via Google Translate",
+    "Secure login with Internet Identity"
+  ],
+  "category": "agriculture",
+  "tags": [
+    "crop-disease",
+    "agriculture",
+    "ai",
+    "farming",
+    "plant-health",
+    "community",
+    "rural"
+  ],
+  "last_updated": "2026-04-09T19:47:18.467Z"
+}

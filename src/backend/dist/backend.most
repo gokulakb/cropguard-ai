@@ -1,0 +1,326 @@
+// Version: 3.0.0
+type AppointmentStatus__679172861 = {#cancelled; #confirmed; #pending};
+type Appointment__198984327 =
+  {
+    createdAt : Timestamp__301639476;
+    diseaseName : Text;
+    id : Nat;
+    location : Text;
+    name : Text;
+    phone : Text;
+    preferredDatetime : Text;
+    severity : SeverityLevel__839761505;
+    status : AppointmentStatus__679172861;
+    userId : UserId__158757552
+  };
+type ChatMessage__559859432 =
+  {
+    id : Nat;
+    message : Text;
+    role : ChatRole__129020187;
+    timestamp : Timestamp__301639476;
+    userId : UserId__158757552
+  };
+type ChatRole__129020187 = {#assistant; #user};
+type CropCalendarEntry__752606228 =
+  {
+    cropType : Text;
+    growthDuration : Nat;
+    harvestMonths : [Nat];
+    notes : Text;
+    region : Text;
+    sowingMonths : [Nat]
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DiseaseRecord__905657047 =
+  {
+    cause : Text;
+    id : Nat;
+    medicationNames : [Text];
+    name : Text;
+    plantType : Text;
+    preventionSteps : [Text];
+    severityLevel : SeverityLevel__839761505;
+    treatmentSteps : [Text]
+  };
+type ExpertContact__525983130 =
+  {
+    available : Bool;
+    district : Text;
+    email : Text;
+    id : Text;
+    name : Text;
+    phone : Text;
+    region : Text;
+    specialization : Text
+  };
+type ExternalBlob__246066408 = Blob;
+type FertilizerGuide__981996484 =
+  {
+    applicationTiming : Text;
+    cropType : Text;
+    growthStage : Text;
+    notes : Text;
+    npkRatio : Text;
+    organicOptions : [Text];
+    soilPhRange : Text
+  };
+type ForumPost__1002377691 =
+  {
+    authorName : Text;
+    body : Text;
+    createdAt : Timestamp__301639476;
+    cropType : Text;
+    id : Text;
+    likesCount : Nat;
+    tags : [Text];
+    title : Text;
+    updatedAt : Timestamp__301639476;
+    userId : UserId__158757552
+  };
+type ForumReply__546534512 =
+  {
+    authorName : Text;
+    body : Text;
+    createdAt : Timestamp__301639476;
+    id : Text;
+    likesCount : Nat;
+    postId : Text;
+    userId : UserId__158757552
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OldSuccessStory__462307752 =
+  {
+    afterDescription : Text;
+    authorName : Text;
+    beforeDescription : Text;
+    createdAt : Int;
+    cropType : Text;
+    diseaseName : Text;
+    id : Text;
+    likesCount : Nat;
+    treatmentUsed : Text;
+    userId : Principal
+  };
+type OldUserProfile__416069324 =
+  {createdAt : Int; name : Text; userId : Principal};
+type PredictionRecord__10814171 =
+  {
+    confidenceScore : Float;
+    diseaseName : Text;
+    id : Nat;
+    imageBlob : ExternalBlob__246066408;
+    severityLevel : SeverityLevel__839761505;
+    timestamp : Timestamp__301639476;
+    userId : UserId__158757552
+  };
+type SeverityLevel__839761505 = {#mild; #moderate; #severe};
+type SuccessStory__940821209 =
+  {
+    afterDescription : Text;
+    authorName : Text;
+    beforeDescription : Text;
+    createdAt : Timestamp__301639476;
+    cropType : Text;
+    diseaseName : Text;
+    id : Text;
+    likesCount : Nat;
+    photoUrl : ?Text;
+    treatmentUsed : Text;
+    userId : UserId__158757552
+  };
+type Timestamp__301639476 = Int;
+type TreatmentReminder__991677347 =
+  {
+    completed : Bool;
+    createdAt : Timestamp__301639476;
+    diseaseName : Text;
+    id : Text;
+    note : Text;
+    predictionId : Text;
+    reminderDate : Timestamp__301639476;
+    userId : UserId__158757552
+  };
+type UserId__158757552 = Principal;
+type UserProfile__446616884 =
+  {
+    createdAt : Timestamp__301639476;
+    name : Text;
+    regionAlerts : [(Text, Bool)];
+    userId : UserId__158757552
+  };
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor ({
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable apiConfig : {var huggingFaceApiKey : Text; var openAiApiKey : Text};
+  stable appointments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Appointment__198984327]];
+      var elementIndex : Nat__490723111
+    };
+  stable chatMessages :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ChatMessage__559859432]];
+      var elementIndex : Nat__490723111
+    };
+  stable cropCalendar :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?CropCalendarEntry__752606228]];
+      var elementIndex : Nat__490723111
+    };
+  stable diseases :
+    {
+      var root : Node__46230540<Text, DiseaseRecord__905657047>;
+      var size : Nat__490723111
+    };
+  stable expertContacts :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ExpertContact__525983130]];
+      var elementIndex : Nat__490723111
+    };
+  stable fertilizerGuides :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FertilizerGuide__981996484]];
+      var elementIndex : Nat__490723111
+    };
+  stable forumPosts :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ForumPost__1002377691]];
+      var elementIndex : Nat__490723111
+    };
+  stable forumReplies :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ForumReply__546534512]];
+      var elementIndex : Nat__490723111
+    };
+  stable predictions :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?PredictionRecord__10814171]];
+      var elementIndex : Nat__490723111
+    };
+  stable readNotifications :
+    {
+      var root : Node__46230540<UserId__158757552, [Text]>;
+      var size : Nat__490723111
+    };
+  stable reminders :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?TreatmentReminder__991677347]];
+      var elementIndex : Nat__490723111
+    };
+  in successStories : List__415060402<OldSuccessStory__462307752>;
+  in userProfiles : Map__605269027<Principal, OldUserProfile__416069324>
+}, {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable apiConfig : {var huggingFaceApiKey : Text; var openAiApiKey : Text};
+  stable appointments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Appointment__198984327]];
+      var elementIndex : Nat__490723111
+    };
+  stable chatMessages :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ChatMessage__559859432]];
+      var elementIndex : Nat__490723111
+    };
+  stable cropCalendar :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?CropCalendarEntry__752606228]];
+      var elementIndex : Nat__490723111
+    };
+  stable diseases :
+    {
+      var root : Node__46230540<Text, DiseaseRecord__905657047>;
+      var size : Nat__490723111
+    };
+  stable expertContacts :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ExpertContact__525983130]];
+      var elementIndex : Nat__490723111
+    };
+  stable fertilizerGuides :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FertilizerGuide__981996484]];
+      var elementIndex : Nat__490723111
+    };
+  stable forumPosts :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ForumPost__1002377691]];
+      var elementIndex : Nat__490723111
+    };
+  stable forumReplies :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ForumReply__546534512]];
+      var elementIndex : Nat__490723111
+    };
+  stable predictions :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?PredictionRecord__10814171]];
+      var elementIndex : Nat__490723111
+    };
+  stable readNotifications :
+    {
+      var root : Node__46230540<UserId__158757552, [Text]>;
+      var size : Nat__490723111
+    };
+  stable reminders :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?TreatmentReminder__991677347]];
+      var elementIndex : Nat__490723111
+    };
+  stable successStories :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?SuccessStory__940821209]];
+      var elementIndex : Nat__490723111
+    };
+  stable userProfiles :
+    {
+      var root : Node__46230540<UserId__158757552, UserProfile__446616884>;
+      var size : Nat__490723111
+    }
+}) ;
