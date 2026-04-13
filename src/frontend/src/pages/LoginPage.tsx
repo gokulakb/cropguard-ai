@@ -13,17 +13,11 @@ export function LoginPage() {
   const { isLoading } = useAuth();
   const navigate = useNavigate();
 
-  const login = () => {
-    navigate({ to: "/" }); // safer route (always exists)
-  };
-
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-12">
-      {/* Background tint */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 pointer-events-none" />
 
       <div className="relative w-full max-w-sm space-y-6">
-        {/* Logo */}
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center shadow-elevated">
             <Leaf className="w-8 h-8 text-primary-foreground" />
@@ -38,7 +32,6 @@ export function LoginPage() {
           </div>
         </div>
 
-        {/* Card */}
         <div className="bg-card border border-border rounded-2xl p-8 shadow-elevated space-y-6 text-center">
           <div>
             <h2 className="text-xl font-bold font-display text-foreground mb-2">
@@ -53,7 +46,8 @@ export function LoginPage() {
           <Button
             className="w-full gap-2"
             size="lg"
-            onClick={login}   // ✅ FIXED
+            onClick={() => navigate({ to: "/dashboard" })}
+            disabled={isLoading}
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -63,7 +57,6 @@ export function LoginPage() {
             ENTER APP NOW
           </Button>
 
-          {/* Feature list */}
           <div className="space-y-2.5 pt-2 border-t border-border">
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
               What you get
@@ -83,7 +76,7 @@ export function LoginPage() {
         </div>
 
         <p className="text-xs text-muted-foreground text-center">
-          © {new Date().getFullYear()} CropGuard AI. Secure &amp; private.
+          © {new Date().getFullYear()} CropGuard AI. Secure & private.
         </p>
       </div>
     </div>
