@@ -9,7 +9,14 @@ const FEATURES = [
 ];
 
 export function LoginPage() {
-  const { isLoading, login } = useAuth();
+  import { useNavigate } from "@tanstack/react-router";
+
+const { isLoading } = useAuth();
+const navigate = useNavigate();
+
+const login = () => {
+  navigate({ to: "/dashboard" });
+};
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-12">
