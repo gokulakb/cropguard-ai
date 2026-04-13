@@ -1,3 +1,4 @@
+import { LoginPage } from "@/pages/LoginPage";
 import { Layout } from "@/components/Layout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import {
@@ -117,7 +118,7 @@ const rootRoute = createRootRoute({ component: AppShell });
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: Dashboard,
+  component: LoginPage,
 });
 
 const detectRoute = createRoute({
