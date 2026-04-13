@@ -101,13 +101,11 @@ function PageLoader() {
 
 function AppShell() {
   return (
-    <ProtectedRoute>
-      <Layout>
-        <Suspense fallback={<PageLoader />}>
-          <Outlet />
-        </Suspense>
-      </Layout>
-    </ProtectedRoute>
+    <Layout>
+      <Suspense fallback={<PageLoader />}>
+        <Outlet />
+      </Suspense>
+    </Layout>
   );
 }
 
