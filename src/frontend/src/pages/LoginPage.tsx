@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { Leaf, Loader2, Scan, Sparkles } from "lucide-react";
@@ -54,9 +55,8 @@ const login = () => {
           <Button
             className="w-full gap-2"
             size="lg"
-            onClick={() => window.location.href = "/dashboard"}
+            onClick={() => navigate({ to: "/dashboard" })}
             disabled={isLoading}
-            data-ocid="login-button"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
