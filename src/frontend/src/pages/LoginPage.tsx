@@ -54,7 +54,7 @@ const login = () => {
           <Button
             className="w-full gap-2"
             size="lg"
-            onClick={() => login()}
+            onClick={() => window.location.href = "/dashboard"}
             disabled={isLoading}
             data-ocid="login-button"
           >
