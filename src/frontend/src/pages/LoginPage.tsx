@@ -10,14 +10,12 @@ const FEATURES = [
 ];
 
 export function LoginPage() {
-  import { useNavigate } from "@tanstack/react-router";
+  const { isLoading } = useAuth();
+  const navigate = useNavigate();
 
-const { isLoading } = useAuth();
-const navigate = useNavigate();
-
-const login = () => {
-  navigate({ to: "/dashboard" });
-};
+  const login = () => {
+    navigate({ to: "/" }); // safer route (always exists)
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-12">
@@ -55,8 +53,7 @@ const login = () => {
           <Button
             className="w-full gap-2"
             size="lg"
-            onClick={() => navigate({ to: "/dashboard" })}
-            disabled={isLoading}
+            onClick={login}   // ✅ FIXED
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
