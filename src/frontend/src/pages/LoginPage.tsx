@@ -60,7 +60,7 @@ export function LoginPage() {
             ) : (
               <Leaf className="w-4 h-4" />
             )}
-            Sign in with Internet Identity
+            ENTER APP NOW
           </Button>
 
           {/* Feature list */}
