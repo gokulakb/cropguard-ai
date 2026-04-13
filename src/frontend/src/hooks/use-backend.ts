@@ -333,14 +333,27 @@ export function useChatHistory() {
 }
 
 export function useSendChatMessage() {
-  const { actor } = useActor(createActor);
   const qc = useQueryClient();
+
   return useMutation({
     mutationFn: async (message: string) => {
-      if (!actor) throw new Error("Actor not ready");
-      return actor.sendChatMessage(message);
+      const res = await fetch("https://cropguard-ai-1.onrender.com/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      const data = await res.json();
+
+      // keep compatibility with existing UI
+      return data.reply || data.response || data.message || "No response";
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["chatHistory"] }),
+
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["chatHistory"] });
+    },
   });
 }
 
