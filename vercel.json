@@ -1,5 +1,4 @@
 {
-  "rootDirectory": "src/frontend",
-  "buildCommand": "pnpm build",
-  "outputDirectory": "dist"
+  "buildCommand": "cd src/frontend && npm install && npm run build",
+  "outputDirectory": "src/frontend/dist"
 }
